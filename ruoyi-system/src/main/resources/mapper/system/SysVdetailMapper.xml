@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysVdetailMapper">
+
+    <resultMap type="SysVdetail" id="SysVdetailResult">
+        <result property="verifiedDetailId"    column="verified_detail_id"    />
+        <result property="systemFamily"    column="system_family"    />
+        <result property="proteinIds"    column="protein_ids"    />
+        <result property="protein"    column="protein"    />
+        <result property="inhibitedType"    column="inhibited_type"    />
+        <result property="phage"    column="phage"    />
+        <result property="host"    column="host"    />
+        <result property="sequence"    column="sequence"    />
+        <result property="length"    column="length"    />
+        <result property="pubmedId"    column="pubmed_id"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+        <result property="proteinAccession"    column="protein_accession"    />
+    </resultMap>
+
+    <sql id="selectSysVdetailVo">
+        select verified_detail_id, system_family, protein_ids, protein, inhibited_type, phage, host,
+               sequence, length, pubmed_id, spare1, spare2, spare3, spare4, spare5 ,protein_accession from sys_vdetail
+    </sql>
+
+    <select id="selectSysVdetailList" parameterType="SysVdetail" resultMap="SysVdetailResult">
+        <include refid="selectSysVdetailVo"/>
+        <where>
+            <if test="systemFamily != null  and systemFamily != ''"> and system_family = #{systemFamily}</if>
+            <if test="proteinIds != null  and proteinIds != ''"> and protein_ids = #{proteinIds}</if>
+            <if test="protein != null  and protein != ''"> and protein = #{protein}</if>
+            <if test="inhibitedType != null  and inhibitedType != ''"> and inhibited_type = #{inhibitedType}</if>
+            <if test="phage != null  and phage != ''"> and phage = #{phage}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="sequence != null  and sequence != ''"> and sequence = #{sequence}</if>
+            <if test="length != null  and length != ''"> and length = #{length}</if>
+            <if test="pubmedId != null  and pubmedId != ''"> and pubmed_id = #{pubmedId}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+            <if test="proteinAccession  != null  and proteinAccession != ''"> and protein_accession  = #{proteinAccession}</if>
+        </where>
+    </select>
+
+    <select id="selectSysVdetailByVerifiedDetailId" parameterType="Long" resultMap="SysVdetailResult">
+        <include refid="selectSysVdetailVo"/>
+        where verified_detail_id = #{verifiedDetailId}
+    </select>
+
+    <insert id="insertSysVdetail" parameterType="SysVdetail" useGeneratedKeys="true" keyProperty="verifiedDetailId">
+        insert into sys_vdetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="systemFamily != null">system_family,</if>
+            <if test="proteinIds != null">protein_ids,</if>
+            <if test="protein != null">protein,</if>
+            <if test="inhibitedType != null">inhibited_type,</if>
+            <if test="phage != null">phage,</if>
+            <if test="host != null">host,</if>
+            <if test="sequence != null">sequence,</if>
+            <if test="length != null">length,</if>
+            <if test="pubmedId != null">pubmed_id,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+            <if test="proteinAccession  != null">  protein_accession,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="systemFamily != null">#{systemFamily},</if>
+            <if test="proteinIds != null">#{proteinIds},</if>
+            <if test="protein != null">#{protein},</if>
+            <if test="inhibitedType != null">#{inhibitedType},</if>
+            <if test="phage != null">#{phage},</if>
+            <if test="host != null">#{host},</if>
+            <if test="sequence != null">#{sequence},</if>
+            <if test="length != null">#{length},</if>
+            <if test="pubmedId != null">#{pubmedId},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+            <if test="proteinAccession  != null ">  #{proteinAccession},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysVdetail" parameterType="SysVdetail">
+        update sys_vdetail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemFamily != null">system_family = #{systemFamily},</if>
+            <if test="proteinIds != null">protein_ids = #{proteinIds},</if>
+            <if test="protein != null">protein = #{protein},</if>
+            <if test="inhibitedType != null">inhibited_type = #{inhibitedType},</if>
+            <if test="phage != null">phage = #{phage},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="sequence != null">sequence = #{sequence},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="pubmedId != null">pubmed_id = #{pubmedId},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+            <if test="proteinAccession  != null  and proteinAccession != ''"> and protein_accession  = #{proteinAccession},</if>
+        </trim>
+        where verified_detail_id = #{verifiedDetailId}
+    </update>
+
+    <delete id="deleteSysVdetailByVerifiedDetailId" parameterType="Long">
+        delete from sys_vdetail where verified_detail_id = #{verifiedDetailId}
+    </delete>
+
+    <delete id="deleteSysVdetailByVerifiedDetailIds" parameterType="String">
+        delete from sys_vdetail where verified_detail_id in
+        <foreach item="verifiedDetailId" collection="array" open="(" separator="," close=")">
+            #{verifiedDetailId}
+        </foreach>
+    </delete>
+
+    <!--根据蛋白质id查询详细信息-->
+    <select id="selectSysVdetailByProteinIds" parameterType="String" resultMap="SysVdetailResult">
+        SELECT * FROM `sys_vdetail` where  protein_ids = #{proteinIds}
+    </select>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysSequenceMapper">
+
+    <resultMap type="SysSequence" id="SysSequenceResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="inputFasta"    column="input_fasta"    />
+        <result property="resultFasta"    column="result_fasta"    />
+        <result property="mailCount"    column="mail_count"    />
+        <result property="resultDetail"    column="result_detail"    />
+        <result property="isMail"    column="is_mail"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+    </resultMap>
+
+    <sql id="selectSysSequenceVo">
+        select file_id, input_fasta, result_fasta, mail_count, result_detail, is_mail, spare1,
+               spare2, spare3, spare4, spare5 from sys_sequence
+    </sql>
+
+    <select id="selectSysSequenceList" parameterType="SysSequence" resultMap="SysSequenceResult">
+        <include refid="selectSysSequenceVo"/>
+        <where>
+            <if test="inputFasta != null  and inputFasta != ''"> and input_fasta = #{inputFasta}</if>
+            <if test="resultFasta != null  and resultFasta != ''"> and result_fasta = #{resultFasta}</if>
+            <if test="mailCount != null  and mailCount != ''"> and mail_count = #{mailCount}</if>
+            <if test="resultDetail != null  and resultDetail != ''"> and result_detail = #{resultDetail}</if>
+            <if test="isMail != null  and isMail != ''"> and is_mail = #{isMail}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+        </where>
+    </select>
+
+    <select id="selectSysSequenceByFileId" parameterType="Long" resultMap="SysSequenceResult">
+        <include refid="selectSysSequenceVo"/>
+        where file_id = #{fileId}
+    </select>
+
+    <insert id="insertSysSequence" parameterType="SysSequence" useGeneratedKeys="true" keyProperty="fileId">
+        insert into sys_sequence
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inputFasta != null">input_fasta,</if>
+            <if test="resultFasta != null">result_fasta,</if>
+            <if test="mailCount != null">mail_count,</if>
+            <if test="resultDetail != null">result_detail,</if>
+            <if test="isMail != null">is_mail,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inputFasta != null">#{inputFasta},</if>
+            <if test="resultFasta != null">#{resultFasta},</if>
+            <if test="mailCount != null">#{mailCount},</if>
+            <if test="resultDetail != null">#{resultDetail},</if>
+            <if test="isMail != null">#{isMail},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysSequence" parameterType="SysSequence">
+        update sys_sequence
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inputFasta != null">input_fasta = #{inputFasta},</if>
+            <if test="resultFasta != null">result_fasta = #{resultFasta},</if>
+            <if test="mailCount != null">mail_count = #{mailCount},</if>
+            <if test="resultDetail != null">result_detail = #{resultDetail},</if>
+            <if test="isMail != null">is_mail = #{isMail},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteSysSequenceByFileId" parameterType="Long">
+        delete from sys_sequence where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteSysSequenceByFileIds" parameterType="String">
+        delete from sys_sequence where file_id in
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+</mapper>

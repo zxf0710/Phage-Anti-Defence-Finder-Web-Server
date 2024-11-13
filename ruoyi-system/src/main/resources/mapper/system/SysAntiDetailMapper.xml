@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysAntiDetailMapper">
+
+    <resultMap type="SysAntiDetail" id="SysAntiDetailResult">
+        <result property="antiDetailId"    column="anti_detail_id"    />
+        <result property="phageId"    column="phage_id"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="proteinId"    column="protein_id"    />
+        <result property="protein"    column="protein"    />
+        <result property="eValue"    column="e_value"    />
+        <result property="scorePoint"    column="score_point"    />
+        <result property="aID"    column="a_id"    />
+    </resultMap>
+
+    <sql id="selectSysAntiDetailVo">
+        select anti_detail_id, phage_id, system_name, protein_id, protein, e_value, score_point,a_id from sys_anti_detail
+    </sql>
+
+    <select id="selectSysAntiDetailList" parameterType="SysAntiDetail" resultMap="SysAntiDetailResult">
+        <include refid="selectSysAntiDetailVo"/>
+        <where>
+            <if test="phageId != null  and phageId != ''"> and phage_id = #{phageId}</if>
+            <if test="systemName != null  and systemName != ''"> and system_name like concat('%', #{systemName}, '%')</if>
+            <if test="proteinId != null  and proteinId != ''"> and protein_id = #{proteinId}</if>
+            <if test="protein != null  and protein != ''"> and protein = #{protein}</if>
+            <if test="eValue != null  and eValue != ''"> and e_value = #{eValue}</if>
+            <if test="scorePoint != null  and scorePoint != ''"> and score_point = #{scorePoint}</if>
+        </where>
+    </select>
+
+    <select id="selectSysAntiDetailByAntiDetailId" parameterType="Long" resultMap="SysAntiDetailResult">
+        <include refid="selectSysAntiDetailVo"/>
+        where anti_detail_id = #{antiDetailId}
+    </select>
+
+    <insert id="insertSysAntiDetail" parameterType="SysAntiDetail" useGeneratedKeys="true" keyProperty="antiDetailId">
+        insert into sys_anti_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phageId != null">phage_id,</if>
+            <if test="systemName != null">system_name,</if>
+            <if test="proteinId != null">protein_id,</if>
+            <if test="protein != null">protein,</if>
+            <if test="eValue != null">e_value,</if>
+            <if test="scorePoint != null">score_point,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phageId != null">#{phageId},</if>
+            <if test="systemName != null">#{systemName},</if>
+            <if test="proteinId != null">#{proteinId},</if>
+            <if test="protein != null">#{protein},</if>
+            <if test="eValue != null">#{eValue},</if>
+            <if test="scorePoint != null">#{scorePoint},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysAntiDetail" parameterType="SysAntiDetail">
+        update sys_anti_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phageId != null">phage_id = #{phageId},</if>
+            <if test="systemName != null">system_name = #{systemName},</if>
+            <if test="proteinId != null">protein_id = #{proteinId},</if>
+            <if test="protein != null">protein = #{protein},</if>
+            <if test="eValue != null">e_value = #{eValue},</if>
+            <if test="scorePoint != null">score_point = #{scorePoint},</if>
+        </trim>
+        where anti_detail_id = #{antiDetailId}
+    </update>
+
+    <delete id="deleteSysAntiDetailByAntiDetailId" parameterType="Long">
+        delete from sys_anti_detail where anti_detail_id = #{antiDetailId}
+    </delete>
+
+    <delete id="deleteSysAntiDetailByAntiDetailIds" parameterType="String">
+        delete from sys_anti_detail where anti_detail_id in
+        <foreach item="antiDetailId" collection="array" open="(" separator="," close=")">
+            #{antiDetailId}
+        </foreach>
+    </delete>
+</mapper>

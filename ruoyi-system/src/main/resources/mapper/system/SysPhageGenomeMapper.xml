@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPhageGenomeMapper">
+
+    <resultMap type="SysPhageGenome" id="SysPhageGenomeResult">
+        <result property="phageId"    column="phage_id"    />
+        <result property="phageName"    column="phage_name"    />
+        <result property="phageGenomeAccession"    column="phage_genome_accession"    />
+        <result property="antiDenfenceSystemNumbers"    column="anti_denfence_system_numbers"    />
+        <result property="host"    column="host"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+    </resultMap>
+
+    <sql id="selectSysPhageGenomeVo">
+        select phage_id, phage_name, phage_genome_accession, anti_denfence_system_numbers, host, spare1, spare2, spare3, spare4, spare5 from sys_phage_genome
+    </sql>
+
+    <select id="selectSysPhageGenomeList" parameterType="SysPhageGenome" resultMap="SysPhageGenomeResult">
+        select * from sys_phage_genome
+        order by phage_genome_accession asc
+    </select>
+
+    <select id="selectSysPhageGenomeByPhageId" parameterType="Long" resultMap="SysPhageGenomeResult">
+        where phage_id = #{phageId}
+    </select>
+
+    <insert id="insertSysPhageGenome" parameterType="SysPhageGenome" useGeneratedKeys="true" keyProperty="phageId">
+        insert into sys_phage_genome
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phageName != null">phage_name,</if>
+            <if test="phageGenomeAccession != null">phage_genome_accession,</if>
+            <if test="antiDenfenceSystemNumbers != null">anti_denfence_system_numbers,</if>
+            <if test="host != null">host,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phageName != null">#{phageName},</if>
+            <if test="phageGenomeAccession != null">#{phageGenomeAccession},</if>
+            <if test="antiDenfenceSystemNumbers != null">#{antiDenfenceSystemNumbers},</if>
+            <if test="host != null">#{host},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPhageGenome" parameterType="SysPhageGenome">
+        update sys_phage_genome
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phageName != null">phage_name = #{phageName},</if>
+            <if test="phageGenomeAccession != null">phage_genome_accession = #{phageGenomeAccession},</if>
+            <if test="antiDenfenceSystemNumbers != null">anti_denfence_system_numbers = #{antiDenfenceSystemNumbers},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+        </trim>
+        where phage_id = #{phageId}
+    </update>
+
+    <delete id="deleteSysPhageGenomeByPhageId" parameterType="Long">
+        delete from sys_phage_genome where phage_id = #{phageId}
+    </delete>
+
+    <delete id="deleteSysPhageGenomeByPhageIds" parameterType="String">
+        delete from sys_phage_genome where phage_id in
+        <foreach item="phageId" collection="array" open="(" separator="," close=")">
+            #{phageId}
+        </foreach>
+    </delete>
+
+    <!--排序-->
+    <select id="selectSortList" parameterType="SysPhageGenome" resultMap="SysPhageGenomeResult">
+        <include refid="selectSysPhageGenomeVo"/>
+        <where>
+            <if test="phageName != null  and phageName != ''"> and phage_name like concat('%', #{phageName}, '%')</if>
+            <if test="phageGenomeAccession != null  and phageGenomeAccession != ''"> and phage_genome_accession = #{phageGenomeAccession}</if>
+            <if test="antiDenfenceSystemNumbers != null "> and anti_denfence_system_numbers = #{antiDenfenceSystemNumbers}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+        </where>
+        order by ${spare1}
+    </select>
+
+
+    <!--模糊查询-->
+    <select id="mhselectList" parameterType="String" resultMap="SysPhageGenomeResult">
+        SELECT *
+        FROM sys_phage_genome
+        where phage_name like concat('%',#{condition},'%')
+        or phage_genome_accession like concat('%',#{condition},'%')
+        or host like concat('%',#{condition},'%')
+    </select>
+</mapper>

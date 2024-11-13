@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SociodemographicfactorsboolMapper">
+    
+    <resultMap type="Sociodemographicfactorsbool" id="SociodemographicfactorsboolResult">
+        <result property="elderlyId"    column="ELDERLY_ID"    />
+        <result property="diagnosisDate"    column="DIAGNOSIS_DATE"    />
+        <result property="a1AgeGe70"    column="A1_AGE_GE_70"    />
+        <result property="a2GenderMale"    column="A2_GENDER_MALE"    />
+        <result property="a3FallHistory"    column="A3_FALL_HISTORY"    />
+    </resultMap>
+
+    <sql id="selectSociodemographicfactorsboolVo">
+        select ELDERLY_ID, DIAGNOSIS_DATE, A1_AGE_GE_70, A2_GENDER_MALE, A3_FALL_HISTORY from sociodemographicfactorsbool
+    </sql>
+
+    <select id="selectSociodemographicfactorsboolList" parameterType="Sociodemographicfactorsbool" resultMap="SociodemographicfactorsboolResult">
+        <include refid="selectSociodemographicfactorsboolVo"/>
+        <where>  
+            <if test="elderlyId != null  and elderlyId != ''"> and ELDERLY_ID = #{elderlyId}</if>
+            <if test="diagnosisDate != null  and diagnosisDate != ''"> and DIAGNOSIS_DATE = #{diagnosisDate}</if>
+            <if test="a1AgeGe70 != null "> and A1_AGE_GE_70 = #{a1AgeGe70}</if>
+            <if test="a2GenderMale != null "> and A2_GENDER_MALE = #{a2GenderMale}</if>
+            <if test="a3FallHistory != null "> and A3_FALL_HISTORY = #{a3FallHistory}</if>
+        </where>
+    </select>
+    
+    <select id="selectSociodemographicfactorsboolByElderlyId" parameterType="String" resultMap="SociodemographicfactorsboolResult">
+        <include refid="selectSociodemographicfactorsboolVo"/>
+        where ELDERLY_ID = #{elderlyId}
+    </select>
+        
+    <insert id="insertSociodemographicfactorsbool" parameterType="Sociodemographicfactorsbool">
+        insert into sociodemographicfactorsbool
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">ELDERLY_ID,</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE,</if>
+            <if test="a1AgeGe70 != null">A1_AGE_GE_70,</if>
+            <if test="a2GenderMale != null">A2_GENDER_MALE,</if>
+            <if test="a3FallHistory != null">A3_FALL_HISTORY,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">#{elderlyId},</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">#{diagnosisDate},</if>
+            <if test="a1AgeGe70 != null">#{a1AgeGe70},</if>
+            <if test="a2GenderMale != null">#{a2GenderMale},</if>
+            <if test="a3FallHistory != null">#{a3FallHistory},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSociodemographicfactorsbool" parameterType="Sociodemographicfactorsbool">
+        update sociodemographicfactorsbool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE = #{diagnosisDate},</if>
+            <if test="a1AgeGe70 != null">A1_AGE_GE_70 = #{a1AgeGe70},</if>
+            <if test="a2GenderMale != null">A2_GENDER_MALE = #{a2GenderMale},</if>
+            <if test="a3FallHistory != null">A3_FALL_HISTORY = #{a3FallHistory},</if>
+        </trim>
+        where ELDERLY_ID = #{elderlyId}
+    </update>
+
+    <delete id="deleteSociodemographicfactorsboolByElderlyId" parameterType="String">
+        delete from sociodemographicfactorsbool where ELDERLY_ID = #{elderlyId}
+    </delete>
+
+    <delete id="deleteSociodemographicfactorsboolByElderlyIds" parameterType="String">
+        delete from sociodemographicfactorsbool where ELDERLY_ID in 
+        <foreach item="elderlyId" collection="array" open="(" separator="," close=")">
+            #{elderlyId}
+        </foreach>
+    </delete>
+</mapper>

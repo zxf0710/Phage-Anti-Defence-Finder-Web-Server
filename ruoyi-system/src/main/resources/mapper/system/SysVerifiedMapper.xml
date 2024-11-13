@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysVerifiedMapper">
+
+    <resultMap type="SysVerified" id="SysVerifiedResult">
+        <result property="verifiedId"    column="verified_id"    />
+        <result property="systemFamily"    column="system_family"    />
+        <result property="proteinIds"    column="protein_ids"    />
+        <result property="protein"    column="protein"    />
+        <result property="inhibitedType"    column="inhibited_type"    />
+        <result property="phage"    column="phage"    />
+        <result property="host"    column="host"    />
+        <result property="lenth"    column="lenth"    />
+        <result property="cankaowenxian"    column="cankaowenxian"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+    </resultMap>
+
+    <sql id="selectSysVerifiedVo">
+        select verified_id, system_family, protein_ids, protein, inhibited_type,
+               phage, host, lenth, cankaowenxian,
+               spare1, spare2, spare3, spare4, spare5 from sys_verified
+    </sql>
+
+    <select id="selectSysVerifiedList" parameterType="SysVerified" resultMap="SysVerifiedResult">
+        <include refid="selectSysVerifiedVo"/>
+        <where>
+            <if test="systemFamily != null  and systemFamily != ''"> and system_family like concat('%',#{systemFamily},'%')  </if>
+            <if test="proteinIds != null  and proteinIds != ''"> and protein_ids = #{proteinIds}</if>
+            <if test="protein != null  and protein != ''"> and protein = #{protein}</if>
+            <if test="inhibitedType != null  and inhibitedType != ''"> and inhibited_type = #{inhibitedType}</if>
+            <if test="phage != null  and phage != ''"> and phage = #{phage}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="lenth != null  and lenth != ''"> and lenth = #{lenth}</if>
+            <if test="cankaowenxian != null  and cankaowenxian != ''"> and cankaowenxian = #{cankaowenxian}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+        </where>
+    </select>
+
+    <select id="selectSysVerifiedByVerifiedId" parameterType="Long" resultMap="SysVerifiedResult">
+        <include refid="selectSysVerifiedVo"/>
+        where verified_id = #{verifiedId}
+    </select>
+
+    <insert id="insertSysVerified" parameterType="SysVerified" useGeneratedKeys="true" keyProperty="verifiedId">
+        insert into sys_verified
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="systemFamily != null">system_family,</if>
+            <if test="proteinIds != null">protein_ids,</if>
+            <if test="protein != null">protein,</if>
+            <if test="inhibitedType != null">inhibited_type,</if>
+            <if test="phage != null">phage,</if>
+            <if test="host != null">host,</if>
+            <if test="lenth != null">lenth,</if>
+            <if test="cankaowenxian != null">cankaowenxian,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="systemFamily != null">#{systemFamily},</if>
+            <if test="proteinIds != null">#{proteinIds},</if>
+            <if test="protein != null">#{protein},</if>
+            <if test="inhibitedType != null">#{inhibitedType},</if>
+            <if test="phage != null">#{phage},</if>
+            <if test="host != null">#{host},</if>
+            <if test="lenth != null">#{lenth},</if>
+            <if test="cankaowenxian != null">#{cankaowenxian},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysVerified" parameterType="SysVerified">
+        update sys_verified
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemFamily != null">system_family = #{systemFamily},</if>
+            <if test="proteinIds != null">protein_ids = #{proteinIds},</if>
+            <if test="protein != null">protein = #{protein},</if>
+            <if test="inhibitedType != null">inhibited_type = #{inhibitedType},</if>
+            <if test="phage != null">phage = #{phage},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="lenth != null">lenth = #{lenth},</if>
+            <if test="cankaowenxian != null">cankaowenxian = #{cankaowenxian},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+        </trim>
+        where verified_id = #{verifiedId}
+    </update>
+
+    <delete id="deleteSysVerifiedByVerifiedId" parameterType="Long">
+        delete from sys_verified where verified_id = #{verifiedId}
+    </delete>
+
+    <delete id="deleteSysVerifiedByVerifiedIds" parameterType="String">
+        delete from sys_verified where verified_id in
+        <foreach item="verifiedId" collection="array" open="(" separator="," close=")">
+            #{verifiedId}
+        </foreach>
+    </delete>
+
+    <!--条件查询-->
+    <select id="selectList" parameterType="SysVerified" resultMap="SysVerifiedResult">
+        <include refid="selectSysVerifiedVo"/>
+        <where>
+            <if test="spare1 != null  and spare1 != ''"> ${spare1}</if>
+        </where>
+        ${spare3}
+    </select>
+
+    <!--排序-->
+    <select id="selectSortList" parameterType="SysVerified" resultMap="SysVerifiedResult">
+        <include refid="selectSysVerifiedVo"/>
+        <where>
+            <if test="systemFamily != null  and systemFamily != ''"> and system_family = #{systemFamily}</if>
+            <if test="proteinIds != null  and proteinIds != ''"> and protein_ids = #{proteinIds}</if>
+            <if test="protein != null  and protein != ''"> and protein = #{protein}</if>
+            <if test="inhibitedType != null  and inhibitedType != ''"> and inhibited_type = #{inhibitedType}</if>
+            <if test="phage != null  and phage != ''"> and phage = #{phage}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="lenth != null  and lenth != ''"> and lenth = #{lenth}</if>
+            <if test="cankaowenxian != null  and cankaowenxian != ''"> and cankaowenxian = #{cankaowenxian}</if>
+        </where>
+        order by ${spare1}
+    </select>
+    <!--模糊查询-->
+    <select id="mhselectList" parameterType="String" resultMap="SysVerifiedResult">
+        SELECT *
+        FROM sys_verified
+        where system_family like concat('%',#{condition},'%')
+        or protein_ids like concat('%',#{condition},'%')
+        or protein like concat('%',#{condition},'%')
+        or inhibited_type like concat('%',#{condition},'%')
+        or phage like concat('%',#{condition},'%')
+        or host like concat('%',#{condition},'%')
+        or lenth like concat('%',#{condition},'%')
+        or cankaowenxian like concat('%',#{condition},'%')
+    </select>
+</mapper>

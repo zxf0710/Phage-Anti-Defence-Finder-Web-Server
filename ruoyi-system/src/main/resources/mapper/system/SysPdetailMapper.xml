@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPdetailMapper">
+
+    <resultMap type="SysPdetail" id="SysPdetailResult">
+        <result property="predictedDetailId"    column="predicted_detail_id"    />
+        <result property="systemFamily"    column="system_family"    />
+        <result property="proteinIds"    column="protein_ids"    />
+        <result property="protein"    column="protein"    />
+        <result property="inhibitedType"    column="inhibited_type"    />
+        <result property="phage"    column="phage"    />
+        <result property="host"    column="host"    />
+        <result property="sequence"    column="sequence"    />
+        <result property="length"    column="length"    />
+        <result property="hmmEValue"    column="hmm_e_value"    />
+        <result property="hmmScore"    column="hmm_score"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+        <result property="proteinAccession"    column="protein_accession"    />
+    </resultMap>
+
+    <sql id="selectSysPdetailVo">
+        select predicted_detail_id, system_family, protein_ids, protein,
+               inhibited_type, phage, host, sequence, length, hmm_e_value, hmm_score, spare1, spare2, spare3, spare4, spare5 ,protein_accession from sys_pdetail
+    </sql>
+
+    <select id="selectSysPdetailList" parameterType="SysPdetail" resultMap="SysPdetailResult">
+        <include refid="selectSysPdetailVo"/>
+        <where>
+            <if test="systemFamily != null  and systemFamily != ''"> and system_family = #{systemFamily}</if>
+            <if test="proteinIds != null  and proteinIds != ''"> and protein_ids = #{proteinIds}</if>
+            <if test="protein != null  and protein != ''"> and protein = #{protein}</if>
+            <if test="inhibitedType != null  and inhibitedType != ''"> and inhibited_type = #{inhibitedType}</if>
+            <if test="phage != null  and phage != ''"> and phage = #{phage}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="sequence != null  and sequence != ''"> and sequence = #{sequence}</if>
+            <if test="length != null  and length != ''"> and length = #{length}</if>
+            <if test="hmmEValue != null  and hmmEValue != ''"> and hmm_e_value = #{hmmEValue}</if>
+            <if test="hmmScore != null  and hmmScore != ''"> and hmm_score = #{hmmScore}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+            <if test="proteinAccession  != null  and proteinAccession != ''"> and protein_accession  = #{proteinAccession}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPdetailByPredictedDetailId" parameterType="Long" resultMap="SysPdetailResult">
+        <include refid="selectSysPdetailVo"/>
+        where predicted_detail_id = #{predictedDetailId}
+    </select>
+
+    <insert id="insertSysPdetail" parameterType="SysPdetail">
+        insert into sys_pdetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="predictedDetailId != null">predicted_detail_id,</if>
+            <if test="systemFamily != null">system_family,</if>
+            <if test="proteinIds != null">protein_ids,</if>
+            <if test="protein != null">protein,</if>
+            <if test="inhibitedType != null">inhibited_type,</if>
+            <if test="phage != null">phage,</if>
+            <if test="host != null">host,</if>
+            <if test="sequence != null">sequence,</if>
+            <if test="length != null">length,</if>
+            <if test="hmmEValue != null">hmm_e_value,</if>
+            <if test="hmmScore != null">hmm_score,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+            <if test="proteinAccession  != null">  protein_accession,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="predictedDetailId != null">#{predictedDetailId},</if>
+            <if test="systemFamily != null">#{systemFamily},</if>
+            <if test="proteinIds != null">#{proteinIds},</if>
+            <if test="protein != null">#{protein},</if>
+            <if test="inhibitedType != null">#{inhibitedType},</if>
+            <if test="phage != null">#{phage},</if>
+            <if test="host != null">#{host},</if>
+            <if test="sequence != null">#{sequence},</if>
+            <if test="length != null">#{length},</if>
+            <if test="hmmEValue != null">#{hmmEValue},</if>
+            <if test="hmmScore != null">#{hmmScore},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+            <if test="proteinAccession  != null "> #{proteinAccession},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPdetail" parameterType="SysPdetail">
+        update sys_pdetail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemFamily != null">system_family = #{systemFamily},</if>
+            <if test="proteinIds != null">protein_ids = #{proteinIds},</if>
+            <if test="protein != null">protein = #{protein},</if>
+            <if test="inhibitedType != null">inhibited_type = #{inhibitedType},</if>
+            <if test="phage != null">phage = #{phage},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="sequence != null">sequence = #{sequence},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="hmmEValue != null">hmm_e_value = #{hmmEValue},</if>
+            <if test="hmmScore != null">hmm_score = #{hmmScore},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+            <if test="proteinAccession  != null "> and #{proteinAccession}</if>
+        </trim>
+        where predicted_detail_id = #{predictedDetailId}
+    </update>
+
+    <delete id="deleteSysPdetailByPredictedDetailId" parameterType="Long">
+        delete from sys_pdetail where predicted_detail_id = #{predictedDetailId}
+    </delete>
+
+    <delete id="deleteSysPdetailByPredictedDetailIds" parameterType="String">
+        delete from sys_pdetail where predicted_detail_id in
+        <foreach item="predictedDetailId" collection="array" open="(" separator="," close=")">
+            #{predictedDetailId}
+        </foreach>
+    </delete>
+
+
+<!--根据蛋白质id查询详细信息-->
+    <select id="selectSysPdetailByProteinIds" parameterType="String" resultMap="SysPdetailResult">
+        SELECT * FROM `sys_pdetail` where  protein_ids = #{proteinIds}
+    </select>
+</mapper>

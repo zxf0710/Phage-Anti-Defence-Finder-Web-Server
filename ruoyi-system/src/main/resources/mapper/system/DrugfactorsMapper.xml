@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DrugfactorsMapper">
+    
+    <resultMap type="Drugfactors" id="DrugfactorsResult">
+        <result property="elderlyId"    column="ELDERLY_ID"    />
+        <result property="diagnosisDate"    column="DIAGNOSIS_DATE"    />
+        <result property="c1Polypharmacy"    column="C1_POLYPHARMACY"    />
+        <result property="c2DrugType"    column="C2_DRUG_TYPE"    />
+    </resultMap>
+
+    <sql id="selectDrugfactorsVo">
+        select ELDERLY_ID, DIAGNOSIS_DATE, C1_POLYPHARMACY, C2_DRUG_TYPE from drugfactors
+    </sql>
+
+    <select id="selectDrugfactorsList" parameterType="Drugfactors" resultMap="DrugfactorsResult">
+        <include refid="selectDrugfactorsVo"/>
+        <where>  
+            <if test="elderlyId != null  and elderlyId != ''"> and ELDERLY_ID = #{elderlyId}</if>
+            <if test="diagnosisDate != null  and diagnosisDate != ''"> and DIAGNOSIS_DATE = #{diagnosisDate}</if>
+            <if test="c1Polypharmacy != null "> and C1_POLYPHARMACY = #{c1Polypharmacy}</if>
+            <if test="c2DrugType != null  and c2DrugType != ''"> and C2_DRUG_TYPE = #{c2DrugType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDrugfactorsByElderlyId" parameterType="String" resultMap="DrugfactorsResult">
+        <include refid="selectDrugfactorsVo"/>
+        where ELDERLY_ID = #{elderlyId}
+    </select>
+        
+    <insert id="insertDrugfactors" parameterType="Drugfactors">
+        insert into drugfactors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">ELDERLY_ID,</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE,</if>
+            <if test="c1Polypharmacy != null">C1_POLYPHARMACY,</if>
+            <if test="c2DrugType != null and c2DrugType != ''">C2_DRUG_TYPE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">#{elderlyId},</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">#{diagnosisDate},</if>
+            <if test="c1Polypharmacy != null">#{c1Polypharmacy},</if>
+            <if test="c2DrugType != null and c2DrugType != ''">#{c2DrugType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDrugfactors" parameterType="Drugfactors">
+        update drugfactors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE = #{diagnosisDate},</if>
+            <if test="c1Polypharmacy != null">C1_POLYPHARMACY = #{c1Polypharmacy},</if>
+            <if test="c2DrugType != null and c2DrugType != ''">C2_DRUG_TYPE = #{c2DrugType},</if>
+        </trim>
+        where ELDERLY_ID = #{elderlyId}
+    </update>
+
+    <delete id="deleteDrugfactorsByElderlyId" parameterType="String">
+        delete from drugfactors where ELDERLY_ID = #{elderlyId}
+    </delete>
+
+    <delete id="deleteDrugfactorsByElderlyIds" parameterType="String">
+        delete from drugfactors where ELDERLY_ID in 
+        <foreach item="elderlyId" collection="array" open="(" separator="," close=")">
+            #{elderlyId}
+        </foreach>
+    </delete>
+</mapper>

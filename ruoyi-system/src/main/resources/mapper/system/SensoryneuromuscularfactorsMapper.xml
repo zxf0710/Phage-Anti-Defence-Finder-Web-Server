@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SensoryneuromuscularfactorsMapper">
+    
+    <resultMap type="Sensoryneuromuscularfactors" id="SensoryneuromuscularfactorsResult">
+        <result property="elderlyId"    column="ELDERLY_ID"    />
+        <result property="diagnosisTime"    column="DIAGNOSIS_TIME"    />
+        <result property="e1VisualImpairment"    column="E1_VISUAL_IMPAIRMENT"    />
+        <result property="e2HearingAbnormality"    column="E2_HEARING_ABNORMALITY"    />
+        <result property="e3LowerLimbMuscleWeakness"    column="E3_LOWER_LIMB_MUSCLE_WEAKNESS"    />
+        <result property="e4GripStrengthDecrease"    column="E4_GRIP_STRENGTH_DECREASE"    />
+        <result property="e5WalkingAids"    column="E5_WALKING_AIDS"    />
+    </resultMap>
+
+    <sql id="selectSensoryneuromuscularfactorsVo">
+        select ELDERLY_ID, DIAGNOSIS_TIME, E1_VISUAL_IMPAIRMENT, E2_HEARING_ABNORMALITY, E3_LOWER_LIMB_MUSCLE_WEAKNESS, E4_GRIP_STRENGTH_DECREASE, E5_WALKING_AIDS from sensoryneuromuscularfactors
+    </sql>
+
+    <select id="selectSensoryneuromuscularfactorsList" parameterType="Sensoryneuromuscularfactors" resultMap="SensoryneuromuscularfactorsResult">
+        <include refid="selectSensoryneuromuscularfactorsVo"/>
+        <where>  
+            <if test="elderlyId != null  and elderlyId != ''"> and ELDERLY_ID = #{elderlyId}</if>
+            <if test="diagnosisTime != null  and diagnosisTime != ''"> and DIAGNOSIS_TIME = #{diagnosisTime}</if>
+            <if test="e1VisualImpairment != null "> and E1_VISUAL_IMPAIRMENT = #{e1VisualImpairment}</if>
+            <if test="e2HearingAbnormality != null "> and E2_HEARING_ABNORMALITY = #{e2HearingAbnormality}</if>
+            <if test="e3LowerLimbMuscleWeakness != null "> and E3_LOWER_LIMB_MUSCLE_WEAKNESS = #{e3LowerLimbMuscleWeakness}</if>
+            <if test="e4GripStrengthDecrease != null "> and E4_GRIP_STRENGTH_DECREASE = #{e4GripStrengthDecrease}</if>
+            <if test="e5WalkingAids != null "> and E5_WALKING_AIDS = #{e5WalkingAids}</if>
+        </where>
+    </select>
+    
+    <select id="selectSensoryneuromuscularfactorsByElderlyId" parameterType="String" resultMap="SensoryneuromuscularfactorsResult">
+        <include refid="selectSensoryneuromuscularfactorsVo"/>
+        where ELDERLY_ID = #{elderlyId}
+    </select>
+        
+    <insert id="insertSensoryneuromuscularfactors" parameterType="Sensoryneuromuscularfactors">
+        insert into sensoryneuromuscularfactors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">ELDERLY_ID,</if>
+            <if test="diagnosisTime != null and diagnosisTime != ''">DIAGNOSIS_TIME,</if>
+            <if test="e1VisualImpairment != null">E1_VISUAL_IMPAIRMENT,</if>
+            <if test="e2HearingAbnormality != null">E2_HEARING_ABNORMALITY,</if>
+            <if test="e3LowerLimbMuscleWeakness != null">E3_LOWER_LIMB_MUSCLE_WEAKNESS,</if>
+            <if test="e4GripStrengthDecrease != null">E4_GRIP_STRENGTH_DECREASE,</if>
+            <if test="e5WalkingAids != null">E5_WALKING_AIDS,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">#{elderlyId},</if>
+            <if test="diagnosisTime != null and diagnosisTime != ''">#{diagnosisTime},</if>
+            <if test="e1VisualImpairment != null">#{e1VisualImpairment},</if>
+            <if test="e2HearingAbnormality != null">#{e2HearingAbnormality},</if>
+            <if test="e3LowerLimbMuscleWeakness != null">#{e3LowerLimbMuscleWeakness},</if>
+            <if test="e4GripStrengthDecrease != null">#{e4GripStrengthDecrease},</if>
+            <if test="e5WalkingAids != null">#{e5WalkingAids},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSensoryneuromuscularfactors" parameterType="Sensoryneuromuscularfactors">
+        update sensoryneuromuscularfactors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diagnosisTime != null and diagnosisTime != ''">DIAGNOSIS_TIME = #{diagnosisTime},</if>
+            <if test="e1VisualImpairment != null">E1_VISUAL_IMPAIRMENT = #{e1VisualImpairment},</if>
+            <if test="e2HearingAbnormality != null">E2_HEARING_ABNORMALITY = #{e2HearingAbnormality},</if>
+            <if test="e3LowerLimbMuscleWeakness != null">E3_LOWER_LIMB_MUSCLE_WEAKNESS = #{e3LowerLimbMuscleWeakness},</if>
+            <if test="e4GripStrengthDecrease != null">E4_GRIP_STRENGTH_DECREASE = #{e4GripStrengthDecrease},</if>
+            <if test="e5WalkingAids != null">E5_WALKING_AIDS = #{e5WalkingAids},</if>
+        </trim>
+        where ELDERLY_ID = #{elderlyId}
+    </update>
+
+    <delete id="deleteSensoryneuromuscularfactorsByElderlyId" parameterType="String">
+        delete from sensoryneuromuscularfactors where ELDERLY_ID = #{elderlyId}
+    </delete>
+
+    <delete id="deleteSensoryneuromuscularfactorsByElderlyIds" parameterType="String">
+        delete from sensoryneuromuscularfactors where ELDERLY_ID in 
+        <foreach item="elderlyId" collection="array" open="(" separator="," close=")">
+            #{elderlyId}
+        </foreach>
+    </delete>
+</mapper>

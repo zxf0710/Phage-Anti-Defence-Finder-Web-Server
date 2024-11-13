@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysAntiMapper">
+
+    <resultMap type="SysAnti" id="SysAntiResult">
+        <result property="antiId"    column="anti_id"    />
+        <result property="phageId"    column="phage_id"    />
+        <result property="systemNumbers"    column="system_numbers"    />
+        <result property="host"    column="host"    />
+        <result property="phage"    column="phage"    />
+        <result property="size"    column="size"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+    </resultMap>
+
+    <sql id="selectSysAntiVo">
+        select anti_id, phage_id, system_numbers, host, phage, size, spare1, spare2, spare3, spare4, spare5 from sys_anti
+    </sql>
+
+    <select id="selectSysAntiList" parameterType="SysAnti" resultMap="SysAntiResult">
+        <include refid="selectSysAntiVo"/>
+        <where>
+            <if test="phageId != null  and phageId != ''"> and phage_id = #{phageId}</if>
+            <if test="systemNumbers != null  and systemNumbers != ''"> and system_numbers = #{systemNumbers}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="phage != null  and phage != ''"> and phage = #{phage}</if>
+            <if test="size != null  and size != ''"> and size = #{size}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+        </where>
+    </select>
+
+    <select id="selectSysAntiByAntiId" parameterType="Long" resultMap="SysAntiResult">
+        <include refid="selectSysAntiVo"/>
+        where anti_id = #{antiId}
+    </select>
+
+    <insert id="insertSysAnti" parameterType="SysAnti" useGeneratedKeys="true" keyProperty="antiId">
+        insert into sys_anti
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phageId != null">phage_id,</if>
+            <if test="systemNumbers != null">system_numbers,</if>
+            <if test="host != null">host,</if>
+            <if test="phage != null">phage,</if>
+            <if test="size != null">size,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phageId != null">#{phageId},</if>
+            <if test="systemNumbers != null">#{systemNumbers},</if>
+            <if test="host != null">#{host},</if>
+            <if test="phage != null">#{phage},</if>
+            <if test="size != null">#{size},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysAnti" parameterType="SysAnti">
+        update sys_anti
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phageId != null">phage_id = #{phageId},</if>
+            <if test="systemNumbers != null">system_numbers = #{systemNumbers},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="phage != null">phage = #{phage},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+        </trim>
+        where anti_id = #{antiId}
+    </update>
+
+    <delete id="deleteSysAntiByAntiId" parameterType="Long">
+        delete from sys_anti where anti_id = #{antiId}
+    </delete>
+
+    <delete id="deleteSysAntiByAntiIds" parameterType="String">
+        delete from sys_anti where anti_id in
+        <foreach item="antiId" collection="array" open="(" separator="," close=")">
+            #{antiId}
+        </foreach>
+    </delete>
+
+
+    <!--模糊查询-->
+    <select id="mhselectList" parameterType="String" resultMap="SysAntiResult">
+        SELECT *
+        FROM sys_anti
+        where phage_id like concat('%',#{condition},'%')
+           or system_numbers like concat('%',#{condition},'%')
+           or host like concat('%',#{condition},'%')
+           or phage like concat('%',#{condition},'%')
+    </select>
+</mapper>

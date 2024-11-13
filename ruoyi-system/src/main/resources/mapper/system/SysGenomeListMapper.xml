@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysGenomeListMapper">
+
+    <resultMap type="SysGenomeList" id="SysGenomeListResult">
+        <result property="genomeId"    column="genome_id"    />
+        <result property="inputFastap"    column="input_fastap"    />
+        <result property="resultFastap"    column="result_fastap"    />
+        <result property="resultFastah"    column="result_fastah"    />
+        <result property="inputFastah"    column="input_fastah"    />
+        <result property="mailCount"    column="mail_count"    />
+        <result property="resultDetail"    column="result_detail"    />
+        <result property="isMail"    column="is_mail"    />
+        <result property="spare1"    column="spare1"    />
+        <result property="spare2"    column="spare2"    />
+        <result property="spare3"    column="spare3"    />
+        <result property="spare4"    column="spare4"    />
+        <result property="spare5"    column="spare5"    />
+    </resultMap>
+
+    <sql id="selectSysGenomeListVo">
+        select genome_id, input_fastap, result_fastap, result_fastah, input_fastah, mail_count, result_detail, is_mail, spare1, spare2, spare3, spare4, spare5 from sys_genome_list
+    </sql>
+
+    <select id="selectSysGenomeListList" parameterType="SysGenomeList" resultMap="SysGenomeListResult">
+        <include refid="selectSysGenomeListVo"/>
+        <where>
+            <if test="inputFastap != null  and inputFastap != ''"> and input_fastap = #{inputFastap}</if>
+            <if test="resultFastap != null  and resultFastap != ''"> and result_fastap = #{resultFastap}</if>
+            <if test="resultFastah != null  and resultFastah != ''"> and result_fastah = #{resultFastah}</if>
+            <if test="inputFastah != null  and inputFastah != ''"> and input_fastah = #{inputFastah}</if>
+            <if test="mailCount != null  and mailCount != ''"> and mail_count = #{mailCount}</if>
+            <if test="resultDetail != null  and resultDetail != ''"> and result_detail = #{resultDetail}</if>
+            <if test="isMail != null  and isMail != ''"> and is_mail = #{isMail}</if>
+            <if test="spare1 != null  and spare1 != ''"> and spare1 = #{spare1}</if>
+            <if test="spare2 != null  and spare2 != ''"> and spare2 = #{spare2}</if>
+            <if test="spare3 != null  and spare3 != ''"> and spare3 = #{spare3}</if>
+            <if test="spare4 != null  and spare4 != ''"> and spare4 = #{spare4}</if>
+            <if test="spare5 != null  and spare5 != ''"> and spare5 = #{spare5}</if>
+        </where>
+    </select>
+
+    <select id="selectSysGenomeListByGenomeId" parameterType="Long" resultMap="SysGenomeListResult">
+        <include refid="selectSysGenomeListVo"/>
+        where genome_id = #{genomeId}
+    </select>
+
+    <insert id="insertSysGenomeList" parameterType="SysGenomeList" useGeneratedKeys="true" keyProperty="genomeId">
+        insert into sys_genome_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inputFastap != null">input_fastap,</if>
+            <if test="resultFastap != null">result_fastap,</if>
+            <if test="resultFastah != null">result_fastah,</if>
+            <if test="inputFastah != null">input_fastah,</if>
+            <if test="mailCount != null">mail_count,</if>
+            <if test="resultDetail != null">result_detail,</if>
+            <if test="isMail != null">is_mail,</if>
+            <if test="spare1 != null">spare1,</if>
+            <if test="spare2 != null">spare2,</if>
+            <if test="spare3 != null">spare3,</if>
+            <if test="spare4 != null">spare4,</if>
+            <if test="spare5 != null">spare5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inputFastap != null">#{inputFastap},</if>
+            <if test="resultFastap != null">#{resultFastap},</if>
+            <if test="resultFastah != null">#{resultFastah},</if>
+            <if test="inputFastah != null">#{inputFastah},</if>
+            <if test="mailCount != null">#{mailCount},</if>
+            <if test="resultDetail != null">#{resultDetail},</if>
+            <if test="isMail != null">#{isMail},</if>
+            <if test="spare1 != null">#{spare1},</if>
+            <if test="spare2 != null">#{spare2},</if>
+            <if test="spare3 != null">#{spare3},</if>
+            <if test="spare4 != null">#{spare4},</if>
+            <if test="spare5 != null">#{spare5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysGenomeList" parameterType="SysGenomeList">
+        update sys_genome_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inputFastap != null">input_fastap = #{inputFastap},</if>
+            <if test="resultFastap != null">result_fastap = #{resultFastap},</if>
+            <if test="resultFastah != null">result_fastah = #{resultFastah},</if>
+            <if test="inputFastah != null">input_fastah = #{inputFastah},</if>
+            <if test="mailCount != null">mail_count = #{mailCount},</if>
+            <if test="resultDetail != null">result_detail = #{resultDetail},</if>
+            <if test="isMail != null">is_mail = #{isMail},</if>
+            <if test="spare1 != null">spare1 = #{spare1},</if>
+            <if test="spare2 != null">spare2 = #{spare2},</if>
+            <if test="spare3 != null">spare3 = #{spare3},</if>
+            <if test="spare4 != null">spare4 = #{spare4},</if>
+            <if test="spare5 != null">spare5 = #{spare5},</if>
+        </trim>
+        where genome_id = #{genomeId}
+    </update>
+
+    <delete id="deleteSysGenomeListByGenomeId" parameterType="Long">
+        delete from sys_genome_list where genome_id = #{genomeId}
+    </delete>
+
+    <delete id="deleteSysGenomeListByGenomeIds" parameterType="String">
+        delete from sys_genome_list where genome_id in
+        <foreach item="genomeId" collection="array" open="(" separator="," close=")">
+            #{genomeId}
+        </foreach>
+    </delete>
+
+    <select id="limitMail" parameterType="String"  resultType="int">
+        SELECT count(*)
+        FROM `sys_genome_list`
+        where mail_count = #{mail}
+          and result_detail = #{uploadTime}
+    </select>
+
+</mapper>

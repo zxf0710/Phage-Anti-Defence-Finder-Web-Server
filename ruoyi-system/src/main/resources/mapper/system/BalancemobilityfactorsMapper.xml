@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BalancemobilityfactorsMapper">
+    
+    <resultMap type="Balancemobilityfactors" id="BalancemobilityfactorsResult">
+        <result property="elderlyId"    column="ELDERLY_ID"    />
+        <result property="diagnosisDate"    column="DIAGNOSIS_DATE"    />
+        <result property="d1WalkingAbility"    column="D1_WALKING_ABILITY"    />
+        <result property="d2GaitInstability"    column="D2_GAIT_INSTABILITY"    />
+        <result property="d3BalanceDisorder"    column="D3_BALANCE_DISORDER"    />
+    </resultMap>
+
+    <sql id="selectBalancemobilityfactorsVo">
+        select ELDERLY_ID, DIAGNOSIS_DATE, D1_WALKING_ABILITY, D2_GAIT_INSTABILITY, D3_BALANCE_DISORDER from balancemobilityfactors
+    </sql>
+
+    <select id="selectBalancemobilityfactorsList" parameterType="Balancemobilityfactors" resultMap="BalancemobilityfactorsResult">
+        <include refid="selectBalancemobilityfactorsVo"/>
+        <where>  
+            <if test="elderlyId != null  and elderlyId != ''"> and ELDERLY_ID = #{elderlyId}</if>
+            <if test="diagnosisDate != null  and diagnosisDate != ''"> and DIAGNOSIS_DATE = #{diagnosisDate}</if>
+            <if test="d1WalkingAbility != null "> and D1_WALKING_ABILITY = #{d1WalkingAbility}</if>
+            <if test="d2GaitInstability != null "> and D2_GAIT_INSTABILITY = #{d2GaitInstability}</if>
+            <if test="d3BalanceDisorder != null "> and D3_BALANCE_DISORDER = #{d3BalanceDisorder}</if>
+        </where>
+    </select>
+    
+    <select id="selectBalancemobilityfactorsByElderlyId" parameterType="String" resultMap="BalancemobilityfactorsResult">
+        <include refid="selectBalancemobilityfactorsVo"/>
+        where ELDERLY_ID = #{elderlyId}
+    </select>
+        
+    <insert id="insertBalancemobilityfactors" parameterType="Balancemobilityfactors">
+        insert into balancemobilityfactors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">ELDERLY_ID,</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE,</if>
+            <if test="d1WalkingAbility != null">D1_WALKING_ABILITY,</if>
+            <if test="d2GaitInstability != null">D2_GAIT_INSTABILITY,</if>
+            <if test="d3BalanceDisorder != null">D3_BALANCE_DISORDER,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">#{elderlyId},</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">#{diagnosisDate},</if>
+            <if test="d1WalkingAbility != null">#{d1WalkingAbility},</if>
+            <if test="d2GaitInstability != null">#{d2GaitInstability},</if>
+            <if test="d3BalanceDisorder != null">#{d3BalanceDisorder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBalancemobilityfactors" parameterType="Balancemobilityfactors">
+        update balancemobilityfactors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE = #{diagnosisDate},</if>
+            <if test="d1WalkingAbility != null">D1_WALKING_ABILITY = #{d1WalkingAbility},</if>
+            <if test="d2GaitInstability != null">D2_GAIT_INSTABILITY = #{d2GaitInstability},</if>
+            <if test="d3BalanceDisorder != null">D3_BALANCE_DISORDER = #{d3BalanceDisorder},</if>
+        </trim>
+        where ELDERLY_ID = #{elderlyId}
+    </update>
+
+    <delete id="deleteBalancemobilityfactorsByElderlyId" parameterType="String">
+        delete from balancemobilityfactors where ELDERLY_ID = #{elderlyId}
+    </delete>
+
+    <delete id="deleteBalancemobilityfactorsByElderlyIds" parameterType="String">
+        delete from balancemobilityfactors where ELDERLY_ID in 
+        <foreach item="elderlyId" collection="array" open="(" separator="," close=")">
+            #{elderlyId}
+        </foreach>
+    </delete>
+</mapper>

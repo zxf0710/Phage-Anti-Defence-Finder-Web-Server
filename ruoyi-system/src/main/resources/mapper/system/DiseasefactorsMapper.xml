@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DiseasefactorsMapper">
+    
+    <resultMap type="Diseasefactors" id="DiseasefactorsResult">
+        <result property="patientId"    column="PATIENT_ID"    />
+        <result property="b1Comorbidity"    column="B1_COMORBIDITY"    />
+        <result property="b2DiseaseType"    column="B2_DISEASE_TYPE"    />
+        <result property="diagnosisDate"    column="DIAGNOSIS_DATE"    />
+    </resultMap>
+
+    <sql id="selectDiseasefactorsVo">
+        select PATIENT_ID, B1_COMORBIDITY, B2_DISEASE_TYPE, DIAGNOSIS_DATE from diseasefactors
+    </sql>
+
+    <select id="selectDiseasefactorsList" parameterType="Diseasefactors" resultMap="DiseasefactorsResult">
+        <include refid="selectDiseasefactorsVo"/>
+        <where>  
+            <if test="patientId != null  and patientId != ''"> and PATIENT_ID = #{patientId}</if>
+            <if test="b1Comorbidity != null "> and B1_COMORBIDITY = #{b1Comorbidity}</if>
+            <if test="b2DiseaseType != null  and b2DiseaseType != ''"> and B2_DISEASE_TYPE = #{b2DiseaseType}</if>
+            <if test="diagnosisDate != null  and diagnosisDate != ''"> and DIAGNOSIS_DATE = #{diagnosisDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectDiseasefactorsByPatientId" parameterType="String" resultMap="DiseasefactorsResult">
+        <include refid="selectDiseasefactorsVo"/>
+        where PATIENT_ID = #{patientId}
+    </select>
+        
+    <insert id="insertDiseasefactors" parameterType="Diseasefactors">
+        insert into diseasefactors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patientId != null and patientId != ''">PATIENT_ID,</if>
+            <if test="b1Comorbidity != null">B1_COMORBIDITY,</if>
+            <if test="b2DiseaseType != null and b2DiseaseType != ''">B2_DISEASE_TYPE,</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patientId != null and patientId != ''">#{patientId},</if>
+            <if test="b1Comorbidity != null">#{b1Comorbidity},</if>
+            <if test="b2DiseaseType != null and b2DiseaseType != ''">#{b2DiseaseType},</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">#{diagnosisDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDiseasefactors" parameterType="Diseasefactors">
+        update diseasefactors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="b1Comorbidity != null">B1_COMORBIDITY = #{b1Comorbidity},</if>
+            <if test="b2DiseaseType != null and b2DiseaseType != ''">B2_DISEASE_TYPE = #{b2DiseaseType},</if>
+            <if test="diagnosisDate != null and diagnosisDate != ''">DIAGNOSIS_DATE = #{diagnosisDate},</if>
+        </trim>
+        where PATIENT_ID = #{patientId}
+    </update>
+
+    <delete id="deleteDiseasefactorsByPatientId" parameterType="String">
+        delete from diseasefactors where PATIENT_ID = #{patientId}
+    </delete>
+
+    <delete id="deleteDiseasefactorsByPatientIds" parameterType="String">
+        delete from diseasefactors where PATIENT_ID in 
+        <foreach item="patientId" collection="array" open="(" separator="," close=")">
+            #{patientId}
+        </foreach>
+    </delete>
+</mapper>

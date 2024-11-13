@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PsychologicalfactorsMapper">
+    
+    <resultMap type="Psychologicalfactors" id="PsychologicalfactorsResult">
+        <result property="elderlyId"    column="ELDERLY_ID"    />
+        <result property="diagnosisTime"    column="DIAGNOSIS_TIME"    />
+        <result property="f1ConsciousnessDisturbance"    column="F1_CONSCIOUSNESS_DISTURBANCE"    />
+        <result property="f2Depression"    column="F2_DEPRESSION"    />
+        <result property="f3Anxiety"    column="F3_ANXIETY"    />
+        <result property="f4CognitiveFunction"    column="F4_COGNITIVE_FUNCTION"    />
+    </resultMap>
+
+    <sql id="selectPsychologicalfactorsVo">
+        select ELDERLY_ID, DIAGNOSIS_TIME, F1_CONSCIOUSNESS_DISTURBANCE, F2_DEPRESSION, F3_ANXIETY, F4_COGNITIVE_FUNCTION from psychologicalfactors
+    </sql>
+
+    <select id="selectPsychologicalfactorsList" parameterType="Psychologicalfactors" resultMap="PsychologicalfactorsResult">
+        <include refid="selectPsychologicalfactorsVo"/>
+        <where>  
+            <if test="elderlyId != null  and elderlyId != ''"> and ELDERLY_ID = #{elderlyId}</if>
+            <if test="diagnosisTime != null  and diagnosisTime != ''"> and DIAGNOSIS_TIME = #{diagnosisTime}</if>
+            <if test="f1ConsciousnessDisturbance != null "> and F1_CONSCIOUSNESS_DISTURBANCE = #{f1ConsciousnessDisturbance}</if>
+            <if test="f2Depression != null "> and F2_DEPRESSION = #{f2Depression}</if>
+            <if test="f3Anxiety != null "> and F3_ANXIETY = #{f3Anxiety}</if>
+            <if test="f4CognitiveFunction != null "> and F4_COGNITIVE_FUNCTION = #{f4CognitiveFunction}</if>
+        </where>
+    </select>
+    
+    <select id="selectPsychologicalfactorsByElderlyId" parameterType="String" resultMap="PsychologicalfactorsResult">
+        <include refid="selectPsychologicalfactorsVo"/>
+        where ELDERLY_ID = #{elderlyId}
+    </select>
+        
+    <insert id="insertPsychologicalfactors" parameterType="Psychologicalfactors">
+        insert into psychologicalfactors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">ELDERLY_ID,</if>
+            <if test="diagnosisTime != null and diagnosisTime != ''">DIAGNOSIS_TIME,</if>
+            <if test="f1ConsciousnessDisturbance != null">F1_CONSCIOUSNESS_DISTURBANCE,</if>
+            <if test="f2Depression != null">F2_DEPRESSION,</if>
+            <if test="f3Anxiety != null">F3_ANXIETY,</if>
+            <if test="f4CognitiveFunction != null">F4_COGNITIVE_FUNCTION,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="elderlyId != null and elderlyId != ''">#{elderlyId},</if>
+            <if test="diagnosisTime != null and diagnosisTime != ''">#{diagnosisTime},</if>
+            <if test="f1ConsciousnessDisturbance != null">#{f1ConsciousnessDisturbance},</if>
+            <if test="f2Depression != null">#{f2Depression},</if>
+            <if test="f3Anxiety != null">#{f3Anxiety},</if>
+            <if test="f4CognitiveFunction != null">#{f4CognitiveFunction},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePsychologicalfactors" parameterType="Psychologicalfactors">
+        update psychologicalfactors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diagnosisTime != null and diagnosisTime != ''">DIAGNOSIS_TIME = #{diagnosisTime},</if>
+            <if test="f1ConsciousnessDisturbance != null">F1_CONSCIOUSNESS_DISTURBANCE = #{f1ConsciousnessDisturbance},</if>
+            <if test="f2Depression != null">F2_DEPRESSION = #{f2Depression},</if>
+            <if test="f3Anxiety != null">F3_ANXIETY = #{f3Anxiety},</if>
+            <if test="f4CognitiveFunction != null">F4_COGNITIVE_FUNCTION = #{f4CognitiveFunction},</if>
+        </trim>
+        where ELDERLY_ID = #{elderlyId}
+    </update>
+
+    <delete id="deletePsychologicalfactorsByElderlyId" parameterType="String">
+        delete from psychologicalfactors where ELDERLY_ID = #{elderlyId}
+    </delete>
+
+    <delete id="deletePsychologicalfactorsByElderlyIds" parameterType="String">
+        delete from psychologicalfactors where ELDERLY_ID in 
+        <foreach item="elderlyId" collection="array" open="(" separator="," close=")">
+            #{elderlyId}
+        </foreach>
+    </delete>
+</mapper>
